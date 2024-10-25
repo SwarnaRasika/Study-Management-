@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logout</title>
+  </head>
+  <style>
+    body {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      background-color: #1e3e62;
+      width: 100vw;
+      height: 100vh;
+      flex-direction: column;
+      align-items: center;
+    }
+    div {
+      display: flex;
+    }
+    a {
+      padding: 10px 15px;
+      background-color: #58a9ff;
+      color: white;
+      text-align: center;
+      border-radius: 5px;
+      text-decoration: none;
+      width: 150px;
+    }
+    form button {
+      padding: 10px 15px;
+      background-color: #c7253e;
+      color: white;
+      text-align: center;
+      border-radius: 5px;
+      width: 150px;
+    }
+  </style>
+  <body>
+    <h1>Are you sure you want to log out?</h1>
+    <div>
+      <form method="POST" action="{% url 'logout_confirm' %}">
+        {% csrf_token %}
+        <button type="submit">Yes, log me out</button>
+      </form>
+      <a href="{% url 'study_list' %}">Cancel</a>
+      <!-- Link to go back to home or dashboard -->
+    </div>
+  </body>
+</html>

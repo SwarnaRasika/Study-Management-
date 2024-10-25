@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        width: 100vw;
+        height: 100vh;
+        background-color: #1e3e62;
+      }
+      body .main_div {
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; */
+        align-items: center;
+        margin-top: 2rem;
+        padding: 2rem 2rem 2rem 2rem;
+        height: max-content;
+        background-color: white;
+        border-radius: 1rem;
+        /* width: 50%; */
+      }
+      body div h1 {
+        margin: 0 0 1rem;
+      }
+      body div form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        /* width: 100%; */
+      }
+      form div {
+        display: flex;
+        justify-content: space-between;
+        column-gap: 2rem;
+        align-items: center;
+      }
+      form div button {
+        padding: 0.5rem 2rem;
+        border-radius: 0.5rem;
+        background-color: #58a9ff;
+        color: white;
+        font-size: large;
+      }
+      #message-list {
+        color: aliceblue;
+        font-size: larger;
+      }
+      a {
+        padding: 10px 15px;
+        background-color: #58a9ff;
+        color: white;
+        text-align: center;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+
+      /* Style for the select tag to match input fields */
+      select {
+        width: 100%; /* Makes the select tag the same width as input fields */
+        padding: 10px; /* Same padding as input fields */
+        border: 1px solid #ccc; /* Same border as input fields */
+        border-radius: 4px; /* Rounded corners to match input fields */
+        box-sizing: border-box; /* Ensures the padding and border are included in the element's total width */
+        font-size: 16px; /* Same font size as input fields */
+/* Removes default dropdown styling for consistency across browsers */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main_div">
+      <h1>Add Study</h1>
+      <!-- Show messages (for success or errors) -->
+      {% if messages %}
+      <ul id="message-list" style="list-style-type: none">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <form method="POST">
+        {% csrf_token %}
+        <div>
+          <label for="name">Name:</label>
+          <div><input type="text" name="name" id="name" required /></div>
+        </div>
+
+        <div>
+          <label for="phase">Phase:</label>
+          <div>
+            <select name="phase" id="phase" required>
+              <option value="Phase I" selected>Phase I</option>
+              <option value="Phase II">Phase II</option>
+              <option value="Phase III">Phase III</option>
+              <option value="Phase IV">Phase IV</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label for="sponsor">Sponsor:</label>
+          <div><input type="text" name="sponsor" id="sponsor" required /></div>
+        </div>
+        <div>
+          <label for="description">Description:</label>
+          <div>
+            <textarea name="description" id="description" required></textarea>
+          </div>
+        </div>
+        <div style="display: flex; justify-content: center">
+          <button type="submit">Save Study</button>
+          <a href="{% url 'logout' %}">Logout</a>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Remove the messages after 2 seconds (2000 milliseconds)
+      setTimeout(function () {
+        var messageList = document.getElementById("message-list");
+        if (messageList) {
+          messageList.style.display = "none";
+        }
+      }, 2000); 
+    });
+  </script>
+</html>

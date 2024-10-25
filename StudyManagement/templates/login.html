@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #1e3e62;
+      width: 100vw;
+      height: 100vh;
+    }
+    body h1 {
+      text-align: center;
+      margin: 0;
+      padding: 3rem 0rem 2rem;
+    }
+    .main_div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .main_div form {
+      background-color: aliceblue;
+      padding: 2rem 1.5rem 1rem;
+      border-radius: 1.5rem;
+    }
+    #message-list{
+      color: aliceblue;
+      font-size: larger;
+    }
+  </style>
+  <body>
+    <h1>Login</h1>
+    <div class="main_div">
+      <!-- Show messages (for success or errors) -->
+      {% if messages %}
+      <ul id="message-list" style="list-style-type: none;">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        <!-- Include CSRF token for security -->
+
+        <label for="email">Email:</label><br />
+        <input type="email" id="email" name="email" required /><br /><br />
+
+        <label for="password">Password:</label><br />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+        /><br /><br />
+
+        <button type="submit">Login</button>
+        <p>
+          Don't have an account?
+          <a href="{% url 'register' %}">Register here</a>.
+        </p>
+      </form>
+    </div>
+  </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Remove the messages after 5 seconds (5000 milliseconds)
+      setTimeout(function () {
+        var messageList = document.getElementById("message-list");
+        if (messageList) {
+          messageList.style.display = "none";
+        }
+      }, 2000); // 5000ms = 5 seconds
+    });
+  </script>
+</html>

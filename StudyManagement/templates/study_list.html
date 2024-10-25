@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Study Management</title>
+    <style>
+      body {
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-color: #1e3e62;
+      }
+      body h1 {
+        color: white;
+        margin-top: 0;
+        padding-top: 2rem;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+      }
+      th {
+        background-color: #eaeaea;
+      }
+      tr {
+        background-color: white;
+      }
+      a {
+        text-decoration: none;
+      }
+      form {
+        padding: 0 2rem;
+      }
+      form div {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+      }
+      form div a {
+        padding: 10px 15px;
+        background-color: #58a9ff;
+        color: white;
+        text-align: center;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+      form div button {
+        padding: 10px 15px;
+        background-color: #c7253e;
+        color: white;
+        text-align: center;
+        border-radius: 5px;
+        width: 150px;
+      }
+      #message-list{
+      color: aliceblue;
+      font-size: larger;
+    }
+    </style>
+    <script></script>
+  </head>
+  <body>
+    <h1 style="text-align: center">Student Details</h1>
+    <!-- Show messages (for success or errors) -->
+      {% if messages %}
+      <ul id="message-list" style="list-style-type: none;">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+    <form method="post" action="{% url 'delete_selected_studies' %}">
+      {% csrf_token %}
+      <table>
+        <thead>
+          <tr>
+            <th>Select</th>
+            <th>Study Name</th>
+            <th>Phase</th>
+            <th>Sponsor</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for study in studies %}
+          <tr>
+            <td>
+              <input type="checkbox" name="study_ids" value="{{ study.id }}" />
+            </td>
+            <td>{{ study.name }}</td>
+            <td>{{ study.phase }}</td>
+            <td>{{ study.sponsor }}</td>
+            <td>{{ study.description }}</td>
+            <td>
+              <a href="{% url 'study_detail' study.id %}">View</a> |
+              <a href="{% url 'edit_study' study.id %}">Edit</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6">No studies found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div>
+        <!-- Button to add a new study -->
+        <a href="{% url 'add_study' %}">Add New Study</a>
+        <a href="{% url 'logout' %}">Logout</a>
+        <!-- Button to delete selected studies -->
+        <button type="submit">Delete Study</button>
+      </div>
+    </form>
+  </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Remove the messages after 2 seconds (2000 milliseconds)
+      setTimeout(function () {
+        var messageList = document.getElementById("message-list");
+        if (messageList) {
+          messageList.style.display = "none";
+        }
+      }, 2000);
+    });
+  </script>
+</html>
